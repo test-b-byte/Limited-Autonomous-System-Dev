@@ -1,4 +1,4 @@
-# LAS Application 2A: Distributed Sensor-Feedback Wearable
+# LAS Application 2A: Distributed Sensor-For Defense Operations
  
 A wearable camera+display system that lets a soldier (or rescue worker) get a live, annotated overhead view from a drone, in one eye, while keeping the other eye and their normal awareness free. This is the first working piece of a larger idea, **LAS**, described below.
  
