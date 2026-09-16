@@ -1,5 +1,6 @@
-# Limited-Autonomous-System-Technologies
+# LAS Application 2A: Distributed Sensor-Feedback Wearable
  
+A wearable camera+display system that lets a soldier (or rescue worker) get a live, annotated overhead view from a drone, in one eye, while keeping the other eye and their normal awareness free. This is the first working piece of a larger idea, **LAS**, described below.
  
 ## About LAS
  
@@ -41,7 +42,7 @@ Ukrainian interceptor drone operations illustrate this directly: can a single pi
  
 The end product vision: an elevated observation drone feeds a real-time, annotated bird's-eye feed to a wearable monocle display worn by a ground operator, with gunshots, movement, and other points of interest highlighted automatically via computer vision and audio event detection. It is a direct, simple expression of all three Technology Pillars. Its sensing and audio-event pipeline is a hands-on testbed for the Sensing & ML pillar; its wearer effectively becomes a mobile, edge-based C2 node rather than relying on a fixed command post, in line with the C2 and Operations-Centered Focus pillar; and its human-in-the-loop design (one operator interpreting a fused feed rather than a fully autonomous system making the call) is a simple expression of Human-Machine Teaming.
  
-The vision is a system buildable for a few thousand dollars that gives a fire team real-time battlefield awareness previously unavailable at this cost point. Beyond the basic architectural and component improvements described in this document, this class of system faces no fundamental technological constraint to scaling further. The limiting factors are engineering maturity and integration, not physics.
+The vision is a system buildable for a few thousand dollars that gives a fire team real-time battlefield awareness previously unavailable at this cost point. The two hardest pieces left to build are: a comms link that keeps working under jamming, and enough real sound/video data to train the system to actually recognize things like gunshots reliably (see Roadmap, Phases 2-3). Neither exists yet, even at prototype scale. Both are solvable engineering work, not something blocked by unsolved science — that's what makes this a build-it problem, not a research bet.
  
 Application 2A is also dual-use by design: the identical sensor-fusion/situational-awareness pipeline applies directly to search-and-rescue and disaster-response contexts, not exclusively defense applications.
  
@@ -66,7 +67,7 @@ Battery and power draw **are** treated as a real design constraint from the star
  
 - Capture, processing, and display run as separate threads/processes (producer-consumer pattern) so a slow display write never stalls detection.
 - Motion/event detection uses OpenCV background subtraction as the baseline approach; a lightweight model (e.g. MobileNet-SSD/TFLite) is a stretch goal if time and Pi 4B performance allow.
-- Audio event detection uses onset/spectral-flux detection to flag impulsive sound events (e.g. gunshots) independently of the video pipeline, fused into the same overlay.
+- Audio detection flags sudden, sharp sounds (a technique called onset/spectral-flux detection) independently of the video pipeline, fused into the same overlay. Right now it can tell "something sharp just happened" but not "that was a gunshot" — turning that into real gunshot recognition needs a trained model and real recorded sound data, which is Phase 3 work (see Roadmap), not something the current method does on its own.
 ## Hardware
  
 | Component | Selection | Notes |
